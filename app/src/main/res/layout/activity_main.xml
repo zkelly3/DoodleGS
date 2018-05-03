@@ -9,6 +9,14 @@
     android:gravity="top"
     tools:context=".MainActivity">
 
+    <TextView
+        android:id="@+id/progress_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:text="progress: 0/0"
+        android:textSize="24sp" />
+
     <fragment
         android:id="@+id/fragment1"
         android:name="com.example.zkelly3.doodlegs.WorkspaceFragment"

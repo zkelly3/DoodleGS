@@ -9,23 +9,23 @@
     <Button
         android:id="@+id/element_A"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1"
-        android:text="Element A"
-        android:enabled="false" />
+        android:enabled="false"
+        android:text="Element A" />
 
     <Button
         android:id="@+id/element_B"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1"
-        android:text="Element B"
-        android:enabled="false" />
+        android:enabled="false"
+        android:text="Element B" />
 
     <Button
         android:id="@+id/combine_btn"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1"
         android:text="Combine" />
 

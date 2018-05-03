@@ -5,6 +5,7 @@ import android.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Pair;
+import android.widget.TextView;
 
 import com.example.zkelly3.doodlegs.game_logic.BasicRule;
 import com.example.zkelly3.doodlegs.game_logic.Combiner;
@@ -112,6 +113,8 @@ public class MainActivity extends AppCompatActivity {
 
         FragmentManager fragmentManager = getFragmentManager();
         workspaceFragment = (WorkspaceFragment) fragmentManager.findFragmentById(R.id.fragment1);
+        TextView progrees_text = findViewById(R.id.progress_text);
+        progrees_text.setText(String.format("progress: %d/%d", createdElementCnt(), allElements.size()));
     }
     public Map<String, Group> getAllGroups() {
         return this.allGroups;
@@ -137,7 +140,17 @@ public class MainActivity extends AppCompatActivity {
         return result;
     }
 
+    private int createdElementCnt() {
+        int sum = 0;
+        for(Group group: allGroups.values()) {
+            sum += group.getCreated().size();
+        }
+        return sum;
+    }
+
     private void refresh() {
+        TextView progrees_text = findViewById(R.id.progress_text);
+        progrees_text.setText(String.format("progress: %d/%d", createdElementCnt(), allElements.size()));
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.popBackStack();
     }
