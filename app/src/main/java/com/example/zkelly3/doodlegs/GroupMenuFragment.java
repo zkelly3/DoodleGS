@@ -14,7 +14,6 @@ import com.example.zkelly3.doodlegs.game_logic.Element;
 import com.example.zkelly3.doodlegs.game_logic.Group;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,7 +34,7 @@ public class GroupMenuFragment extends Fragment {
             }
         }
 
-        View view = inflater.inflate(R.layout.fragment2, container, false);
+        View view = inflater.inflate(R.layout.group_menu, container, false);
         listView = view.findViewById(R.id.listGroup);
 
         listAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, createdGroup);

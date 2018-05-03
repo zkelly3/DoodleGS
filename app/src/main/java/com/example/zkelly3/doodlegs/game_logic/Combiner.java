@@ -2,6 +2,7 @@ package com.example.zkelly3.doodlegs.game_logic;
 
 import android.util.Pair;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +11,7 @@ public class Combiner {
     private Map<Pair<Element, Element>, Rule> rules;
 
     public Combiner() {
-        this.rules = new HashMap<Pair<Element, Element>, Rule>();
+        this.rules = new HashMap<>();
     }
     public void addRule(Rule rule) {
         Pair<Element, Element> combination;
@@ -37,7 +38,7 @@ public class Combiner {
             return this.rules.get(combination).getResult();
         }
         else {
-            return null;
+            return new ArrayList<>();
         }
     }
 }

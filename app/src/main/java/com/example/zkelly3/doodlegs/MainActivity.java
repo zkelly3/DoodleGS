@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Pair;
 
 import com.example.zkelly3.doodlegs.game_logic.BasicRule;
 import com.example.zkelly3.doodlegs.game_logic.Combiner;
@@ -23,6 +24,8 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
     private Map<String, Group> allGroups;
     private Map<String, Element> allElements;
+    private WorkspaceFragment workspaceFragment;
+    private Combiner combiner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        Combiner combiner = new Combiner();
+        combiner = new Combiner();
         BufferedReader ruleReader = null;
         try {
             ruleReader = new BufferedReader(new InputStreamReader(getAssets().open("rules.txt")));
@@ -106,6 +109,9 @@ public class MainActivity extends AppCompatActivity {
         getFragmentManager().beginTransaction()
                 .replace(R.id.placeholder, groupMenuFragment,"group_menu")
                 .commit();
+
+        FragmentManager fragmentManager = getFragmentManager();
+        workspaceFragment = (WorkspaceFragment) fragmentManager.findFragmentById(R.id.fragment1);
     }
     public Map<String, Group> getAllGroups() {
         return this.allGroups;
@@ -113,6 +119,29 @@ public class MainActivity extends AppCompatActivity {
     public Map<String, Element> getAllElements() {
         return this.allElements;
     }
+
+    public WorkspaceFragment getWorkspaceFragment() {
+        return workspaceFragment;
+    }
+
+    public List<Pair<String, Boolean>> combine(String A, String B) {
+        Element element_A = allElements.get(A);
+        Element element_B = allElements.get(B);
+        List<Element> created = combiner.combine(element_A, element_B);
+        List<Pair<String, Boolean>> result = new ArrayList<>();
+        for(Element element: created) {
+            boolean newCreated = element.getGroup().createElement(element);
+            result.add(new Pair<>(element.getName(), newCreated));
+        }
+        refresh();
+        return result;
+    }
+
+    private void refresh() {
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.popBackStack();
+    }
+
     public void navigateToElementMenu(String groupName) {
         ElementMenuFragment elementMenuFragment = null;
         try {
