@@ -4,11 +4,6 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.zkelly3.doodlegs.game_logic.BasicRule;
 import com.example.zkelly3.doodlegs.game_logic.Combiner;
@@ -26,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
-    private List<Group> allGroups;
+    private Map<String, Group> allGroups;
     private Map<String, Element> allElements;
 
     @Override
@@ -34,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        allGroups = new ArrayList<>();
+        allGroups = new HashMap<>();
         allElements = new HashMap<>();
 
         BufferedReader elementReader = null;
@@ -44,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
             while((eLine = elementReader.readLine()) != null) {
                 String[] tokens = eLine.split(" -> ");
                 Group group = new Group(tokens[0]);
-                allGroups.add(group);
+                allGroups.put(group.getName(), group);
                 String[] elements = tokens[1].split(" ");
                 for(String name: elements) {
                     Element element;
@@ -107,24 +102,32 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        Fragment2 fragment2 = new Fragment2();
-        getFragmentManager().beginTransaction().replace(R.id.placeholder, fragment2).commit();
+        GroupMenuFragment groupMenuFragment = new GroupMenuFragment();
+        getFragmentManager().beginTransaction()
+                .replace(R.id.placeholder, groupMenuFragment,"group_menu")
+                .commit();
     }
-    public List<Group> getAllGroups() {
+    public Map<String, Group> getAllGroups() {
         return this.allGroups;
     }
     public Map<String, Element> getAllElements() {
         return this.allElements;
     }
-    public void replaceFragment3(List<Element> elements) {
-        Fragment fragment = null;
+    public void navigateToElementMenu(String groupName) {
+        ElementMenuFragment elementMenuFragment = null;
         try {
-            fragment = (Fragment) Fragment3.class.newInstance();
+            elementMenuFragment = ElementMenuFragment.class.newInstance();
         } catch (Exception e) {
             e.printStackTrace();
         }
         // Insert the fragment by replacing any existing fragment
+        Bundle args = new Bundle();
+        args.putString("group_name", groupName);
+        elementMenuFragment.setArguments(args);
         FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.placeholder, fragment).commit();
+        fragmentManager.beginTransaction()
+                .replace(R.id.placeholder, elementMenuFragment, "element_menu")
+                .addToBackStack("element_menu")
+                .commit();
     }
 }
